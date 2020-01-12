@@ -3,7 +3,12 @@ import { Context } from "../Context";
 import PropTypes from "prop-types";
 
 function Image({ className, img }) {
-  const { toggleFavorite } = useContext(Context);
+  const {
+    toggleFavorite,
+    addPhotoToCart,
+    cartPhotos,
+    removePhotoFromCart
+  } = useContext(Context);
   const [hovered, setIsHovered] = useState(false);
   function favIcon() {
     if (img.isFavorite)
@@ -22,7 +27,25 @@ function Image({ className, img }) {
       );
     }
   }
-  const plusIcon = hovered && <i className="ri-add-circle-line cart"></i>;
+  function plusIcon() {
+    const alreadyInCart = cartPhotos.some(newItem => newItem.id === img.id);
+    if (alreadyInCart) {
+      return (
+        <i
+          className="ri-shopping-cart-fill cart"
+          onClick={() => removePhotoFromCart(img)}
+        ></i>
+      );
+    } else if (hovered) {
+      return (
+        <i
+          className="ri-add-circle-line cart"
+          onClick={() => addPhotoToCart(img)}
+        ></i>
+      );
+    }
+  }
+
   return (
     <div
       className={`${className} image-container`}
@@ -31,7 +54,7 @@ function Image({ className, img }) {
     >
       <img src={img.url} alt="" className="image-grid" />
       {favIcon()}
-      {plusIcon}
+      {plusIcon()}
     </div>
   );
 }

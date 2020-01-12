@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 const Context = React.createContext();
 function ContextProvider({ children }) {
   const [allPhotos, setAllPhotos] = useState([]);
+  const [cartPhotos, setCartPhotos] = useState([]);
   const url =
     "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json";
   useEffect(() => {
@@ -20,9 +21,23 @@ function ContextProvider({ children }) {
     });
     setAllPhotos(updatedArr);
   }
+  function addPhotoToCart(newPhoto) {
+    setCartPhotos(photo => [...photo, newPhoto]);
+  }
+  function removePhotoFromCart(removedPhoto) {
+    setCartPhotos(cartPhotos.filter(photo => photo !== removedPhoto));
+  }
 
   return (
-    <Context.Provider value={{ allPhotos, toggleFavorite }}>
+    <Context.Provider
+      value={{
+        allPhotos,
+        toggleFavorite,
+        cartPhotos,
+        addPhotoToCart,
+        removePhotoFromCart
+      }}
+    >
       {children}
     </Context.Provider>
   );
