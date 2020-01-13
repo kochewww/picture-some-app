@@ -7,12 +7,16 @@ function Cart() {
   const cartPhotoElements = cartPhotos.map(photo => (
     <CartPhoto key={photo.id} item={photo} />
   ));
-
+  const totalPrice = 5.99 * cartPhotos.length;
+  const totalPriceDisplay = totalPrice.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  });
   return (
     <main className="cart-page">
       <h1>Check out</h1>
       {cartPhotoElements}
-      <p className="total-cost">Total: </p>
+      <p className="total-cost">Total: {totalPriceDisplay} </p>
       <div className="order-button">
         <button>Place Order</button>
       </div>
