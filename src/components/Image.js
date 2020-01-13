@@ -3,13 +3,14 @@ import { Context } from "../Context";
 import PropTypes from "prop-types";
 
 function Image({ className, img }) {
+  const [hovered, setHovered] = useState(false);
   const {
     toggleFavorite,
     addPhotoToCart,
     cartPhotos,
     removePhotoFromCart
   } = useContext(Context);
-  const [hovered, setIsHovered] = useState(false);
+
   function favIcon() {
     if (img.isFavorite)
       return (
@@ -49,8 +50,8 @@ function Image({ className, img }) {
   return (
     <div
       className={`${className} image-container`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <img src={img.url} alt="" className="image-grid" />
       {favIcon()}

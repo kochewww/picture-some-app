@@ -3,7 +3,7 @@ const Context = React.createContext();
 function ContextProvider({ children }) {
   const [allPhotos, setAllPhotos] = useState([]);
   const [cartPhotos, setCartPhotos] = useState([]);
-  const [isOrdering, setIsOrdering] = useState(false);
+
   const url =
     "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json";
   useEffect(() => {
@@ -28,17 +28,8 @@ function ContextProvider({ children }) {
   function removePhotoFromCart(removedPhoto) {
     setCartPhotos(cartPhotos.filter(photo => photo !== removedPhoto));
   }
-  useEffect(() => {
-    if (isOrdering) {
-      setTimeout(() => {
-        setIsOrdering(false);
-        setCartPhotos([]);
-        console.log("order placed");
-      }, 3000);
-    }
-  }, [isOrdering]);
-  function startOrdering() {
-    setIsOrdering(true);
+  function emptyCart() {
+    setCartPhotos([]);
   }
   return (
     <Context.Provider
@@ -48,8 +39,7 @@ function ContextProvider({ children }) {
         cartPhotos,
         addPhotoToCart,
         removePhotoFromCart,
-        startOrdering,
-        isOrdering
+        emptyCart
       }}
     >
       {children}

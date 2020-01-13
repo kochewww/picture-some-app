@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../Context";
 function CartPhoto({ item }) {
+  const [hovered, setHovered] = useState(false);
   const { removePhotoFromCart } = useContext(Context);
   return (
     <div className="cart-item">
       <i
-        className="ri-delete-bin-line"
+        className={hovered ? "ri-delete-bin-fill" : "ri-delete-bin-line"}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         onClick={() => removePhotoFromCart(item)}
       ></i>
       <img src={item.url} alt="your pic" width="130px" />

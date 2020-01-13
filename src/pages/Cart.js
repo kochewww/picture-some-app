@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../Context";
 import CartPhoto from "../components/CartPhoto";
 
 function Cart() {
-  const { cartPhotos, startOrdering, isOrdering } = useContext(Context);
+  const [buttonText, setButtonText] = useState("Place order");
+  const { cartPhotos, emptyCart } = useContext(Context);
   const cartPhotoElements = cartPhotos.map(photo => (
     <CartPhoto key={photo.id} item={photo} />
   ));
@@ -12,6 +13,13 @@ function Cart() {
     style: "currency",
     currency: "USD"
   });
+  function placeOrder() {
+    setButtonText("Ordering...");
+    setTimeout(() => {
+      setButtonText("Place order");
+      emptyCart();
+    }, 3000);
+  }
 
   return (
     <main className="cart-page">
@@ -19,9 +27,11 @@ function Cart() {
       {cartPhotoElements}
       <p className="total-cost">Total: {totalPriceDisplay} </p>
       <div className="order-button">
-        <button onClick={startOrdering}>
-          {isOrdering ? "Ordering..." : "Place Order"}
-        </button>
+        {cartPhotos.length ? (
+          <button onClick={placeOrder}>{buttonText}</button>
+        ) : (
+          ""
+        )}
       </div>
     </main>
   );
